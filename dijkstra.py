@@ -12,6 +12,9 @@ def dijkstra(graph, src):
 
         u = minDistance(dist,queue)
 
+        if u == -1:
+            return (dist, parent)
+
         queue.remove(u)
 
         for i in range(len(graph[0])):

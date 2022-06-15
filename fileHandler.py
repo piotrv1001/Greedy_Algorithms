@@ -1,5 +1,6 @@
 from random import randint, random
 import numpy as np
+import sys
 
 def fileToGraph(filename):
 
@@ -32,7 +33,8 @@ def graphToFile(graph, edges, filename):
         f.write(str(edges) + "\n")
         for i in range(len(graph)):
             for j in range(len(graph[0])):
-                f.write(str(i) + " " + str(j) + " " + str(graph[i][j]) + "\n")
+                if graph[i][j] != 0:
+                    f.write(str(i) + " " + str(j) + " " + str(graph[i][j]) + "\n")
 
 def saveSolution(dist, parent, src, file):
 
@@ -43,11 +45,13 @@ def saveSolution(dist, parent, src, file):
                 continue
             path = []
             savePath(path, parent, i)
-            edges = len(path) - 1
-            newPathString = ','.join([str(num) for num in path])
-            writeToFile = f"{src} {i} {dist[i]} {edges} {newPathString}\n"
-            f.write(writeToFile)
-
+            if dist[i] != sys.maxsize:
+                edges = len(path) - 1
+                newPathString = ','.join([str(num) for num in path])
+                writeToFile = f"{src} {i} {dist[i]} {edges} {newPathString}\n"
+                f.write(writeToFile)
+            
+            
 
 
 def savePath(path, parent, j):
@@ -63,9 +67,12 @@ def savePath(path, parent, j):
 def my_graph_generator(n, p):
 
     v = 0
+    max_nodes = n * 1.5
     graph = [[0 for j in range(n)] for i in range(n)]
     for i in range(n):
         for j in range(n):
+            if v >= max_nodes:
+                return graph, v
             if i == j:
                 continue
             if random() < p:

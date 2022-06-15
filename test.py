@@ -14,10 +14,10 @@ def testDijkstra(files):
         if os.path.exists(outputFile):
             os.remove(outputFile)
 
-        for source in range(0, nodes):
-
-            dist, parent = dijkstra.dijkstra(graph, source)
-            fileHandler.saveSolution(dist, parent, source, outputFile)
+        # for source in range(0, nodes):
+        source = 0
+        dist, parent = dijkstra.dijkstra(graph, source)
+        fileHandler.saveSolution(dist, parent, source, outputFile)
 
 
         print("Execution time: ", end = " ")
